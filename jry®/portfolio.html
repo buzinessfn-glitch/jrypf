@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <title>(JRY) ® | Portfolio</title>
+
+    <link href="https://vjs.zencdn.net/8.23.4/video-js.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================================================================
+           1. ROOT VARIABLES & THEME DEFINITION
+           Updated for "Glassy/Dreamy" feel with White Accents
+           ================================================================
+        */
+        :root {
+            /* Core Colors */
+            --primary-red: #D60000;
+            --deep-red: #8a0000;
+            --pure-black: #050505;
+            --off-black: #0a0a0a;
+            --text-black: #000000;
+            --text-white: #ffffff;
+            --accent-white: #f0f0f0;
+
+            /* Glass Effects - Modernized */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(15px);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --dreamy-glow: 0 0 20px rgba(255, 255, 255, 0.5);
+
+            /* Layout */
+            --frame-radius: 16px;
+            --section-padding: 120px 8%;
+            --transition-smooth: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow-standard: 0 15px 40px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 20px rgba(214, 0, 0, 0.2);
+        }
+
+        /* ================================================================
+           2. RESET & GLOBAL STYLES
+           ================================================================
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--primary-red);
+        }
+
+        body {
+            background-color: var(--primary-red);
+            /* Gradient overlay for depth */
+            background-image: linear-gradient(135deg, var(--primary-red) 0%, #a30000 100%);
+            color: var(--text-black);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            font-weight: 400;
+        }
+
+        ::selection {
+            background: var(--text-white);
+            color: var(--primary-red);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-red);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-white);
+            border-radius: 10px;
+            border: 2px solid var(--primary-red);
+        }
+
+        /* Loading Animation Container */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-red);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: var(--pure-black);
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0,0,0,0.1);
+            border-top: 5px solid var(--pure-black);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Scroll Animations Utility */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ================================================================
+           3. NAVIGATION (Glassy & White Accents)
+           ================================================================
+        */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+            max-width: fit-content;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center; /* Ensures text and ® are on same line */
+            gap: 12px;
+            text-decoration: none;
+            font-weight: 900;
+            color: var(--pure-black);
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-brand span {
+            font-size: 0.8rem;
+            vertical-align: super;
+            margin-top: -10px; /*

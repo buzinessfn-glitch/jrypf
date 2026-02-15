@@ -595,12 +595,14 @@
         /* Snap Container */
         .client-snap-container {
             display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 0; /* No gap, we manage spacing via padding/width */
+            overflow: hidden; /* Prevent scrolling */
+            scroll-snap-type: none; /* Remove snap points */
+            gap: 0; /* No gap */
             padding-bottom: 40px; /* Space for scrollbar if visible */
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
+            justify-content: center; /* Center the client slide */
+            align-items: center; /* Center the client slide */
         }
 
         .client-snap-container::-webkit-scrollbar {
@@ -609,11 +611,12 @@
 
         .client-slide {
             flex: 0 0 100%; /* Takes full width */
-            scroll-snap-align: center;
+            scroll-snap-align: none; /* Remove snap alignment */
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            width: 100%; /* Ensure the client slide takes full width */
         }
 
         /* The Pill Design */
@@ -1181,21 +1184,48 @@
 
         function renderClients() {
             const container = document.getElementById('clients-container');
+            container.innerHTML = ''; // Clear the container
 
             clients.forEach((c, index) => {
-                container.innerHTML += `
-                    <div class="client-slide">
-                        <div class="client-pill" onclick="openClientModal(${index})">
-                            <img src="${c.img}" class="client-avatar" onerror="this.src='logo.jpg'">
-                            <div class="client-meta">
-                                <h4>${c.name}</h4>
-                                <span>${c.subs} FOLLOWERS</span>
-                            </div>
-                            <div class="tap-hint">Tap for Info</div>
-                        </div>
+                const clientSlide = document.createElement('div');
+                clientSlide.className = 'client-slide';
+                clientSlide.style.display = index === 0 ? 'flex' : 'none'; // Show only the first client initially
+
+                const clientPill = document.createElement('div');
+                clientPill.className = 'client-pill';
+                clientPill.onclick = () => openClientModal(index);
+                clientPill.innerHTML = `
+                    <img src="${c.img}" class="client-avatar" onerror="this.src='logo.jpg'">
+                    <div class="client-meta">
+                        <h4>${c.name}</h4>
+                        <span>${c.subs} FOLLOWERS</span>
                     </div>
+                    <div class="tap-hint">Tap for Info</div>
                 `;
+
+                clientSlide.appendChild(clientPill);
+                container.appendChild(clientSlide);
             });
+
+            // Start the cycling logic
+            startClientCycling();
+        }
+
+        function startClientCycling() {
+            const clients = document.querySelectorAll('.client-slide');
+            let currentIndex = 0;
+
+            // Show the first client initially
+            clients[currentIndex].style.display = 'flex';
+
+            setInterval(() => {
+                // Hide the current client
+                clients[currentIndex].style.display = 'none';
+
+                // Show the next client
+                currentIndex = (currentIndex + 1) % clients.length;
+                clients[currentIndex].style.display = 'flex';
+            }, 3000); // Change client every 3 seconds
         }
 
         /**

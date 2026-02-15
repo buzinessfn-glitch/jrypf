@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
+
     <title>(JRY) ® | Pure Excellence.</title>
 
     <link href="https://vjs.zencdn.net/8.23.4/video-js.css" rel="stylesheet" />
@@ -29,12 +29,13 @@
             --text-black: #000000;
             --text-white: #ffffff;
             --accent-white: #f0f0f0;
-            
+
             /* Glass Effects - Modernized */
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-blur: blur(15px);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --dreamy-glow: 0 0 20px rgba(255, 255, 255, 0.5);
 
             /* Layout */
             --frame-radius: 16px;
@@ -105,7 +106,7 @@
             align-items: center;
             transition: opacity 0.8s ease-out, visibility 0.8s;
         }
-        
+
         .loader-content {
             text-align: center;
             color: var(--pure-black);
@@ -141,18 +142,23 @@
         */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
             padding: 1.5rem 5%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             z-index: 1000;
-            background: rgba(214, 0, 0, 0.85); /* Red base with opacity */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* White accent border */
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
             transition: var(--transition-smooth);
+            max-width: fit-content;
         }
 
         .nav-brand {
@@ -205,7 +211,7 @@
             padding: 5px 0;
             transition: var(--transition-smooth);
         }
-        
+
         /* White hover accent */
         nav ul li a:hover {
             color: var(--text-white);
@@ -297,7 +303,7 @@
             text-transform: uppercase;
             position: relative;
         }
-        
+
         .hero-title span {
             font-size: 0.5em;
             vertical-align: top;
@@ -365,7 +371,7 @@
             object-fit: cover;
             transition: transform 0.8s ease;
         }
-        
+
         .slider-frame:hover img {
             transform: scale(1.1);
         }
@@ -441,19 +447,19 @@
 
         .media-frame {
             width: 100%;
-            background: var(--pure-black);
+            background: var(--glass-bg);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
             position: relative;
-            box-shadow: var(--shadow-standard);
+            box-shadow: var(--glass-shadow);
             transition: var(--transition-smooth);
         }
 
         .media-frame:hover {
             transform: scale(1.02) translateY(-10px);
             border-color: var(--text-white);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: var(--glass-shadow), var(--dreamy-glow);
         }
 
         .ratio-thumbnail { aspect-ratio: 16 / 9; }
@@ -596,7 +602,7 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
-        
+
         .client-snap-container::-webkit-scrollbar {
             display: none;
         }
@@ -629,12 +635,12 @@
             transform: scale(1.05);
             background: var(--pure-black);
         }
-        
+
         .client-pill:hover .client-meta h4,
         .client-pill:hover .client-meta span {
             color: var(--text-white);
         }
-        
+
         .client-pill:hover .client-avatar {
             border-color: var(--text-white);
         }
@@ -735,7 +741,7 @@
             font-weight: 900;
             transition: 0.2s;
         }
-        
+
         .close-modal:hover {
             color: var(--text-white);
         }
@@ -830,7 +836,7 @@
             font-weight: 600;
             opacity: 0.8;
         }
-        
+
         .powered-by span {
             color: var(--text-white);
             font-weight: 900;
@@ -977,7 +983,7 @@
         <div class="contact-container reveal-on-scroll">
             <h2 class="contact-title">Let's Work</h2>
             <p class="contact-sub">Ready to elevate your content? Reach out directly.</p>
-            
+
             <div class="contact-links-grid">
                 <a href="https://x.com/JRYDZN1" target="_blank" class="contact-card">
                     <i class="fa-brands fa-x-twitter"></i>
@@ -1025,10 +1031,10 @@
             { id: 8, category: 'thumbnails', type: 'img', src: 'jrywork8.jpg', ratio: 'ratio-thumbnail' },
             { id: 9, category: 'thumbnails', type: 'img', src: 'jrywork11.jpg', ratio: 'ratio-thumbnail' },
 
-            // LONG FORM EDITING
-            { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
-            { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
-            { id: 12, category: 'long-form', type: 'yt', ytId: 'WsxUai7NhhI', ratio: 'ratio-long' }
+            // LONG FORM EDITING (commented out as per instructions)
+            // { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
+            // { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
+            // { id: 12, category: 'long-form', type: 'yt', ytId: 'WsxUai7NhhI', ratio: 'ratio-long' }
         ];
 
         const shortFormIds = [
@@ -1038,53 +1044,53 @@
 
         // Updated Client Data with Specific Links
         const clients = [
-            { 
-                name: 'Raud', 
-                subs: '1M+', 
+            {
+                name: 'Raud',
+                subs: '1M+',
                 img: 'raudpfp.jpg',
                 links: [
                     { label: 'Live Channel', url: 'https://www.youtube.com/channel/UC29OtzBQfYcz2GSZlVlROsQ', icon: 'fa-youtube' },
                     { label: 'Main Channel', url: 'https://www.youtube.com/@raud', icon: 'fa-youtube' }
                 ]
             },
-            { 
-                name: 'BenDaDonnn', 
-                subs: 'High', // Placeholder if sub count unknown
-                img: 'bendadonpfp.jpg', // Placeholder filename
+            {
+                name: 'BenDaDonnn',
+                subs: 'High',
+                img: 'bendadonpfp.jpg',
                 links: [
                     { label: 'Live Channel', url: 'https://www.youtube.com/channel/UC6STmDr5IHLnMyQMoh95HQQ', icon: 'fa-youtube' },
                     { label: 'Main Channel', url: 'https://www.youtube.com/@BenDaDonn', icon: 'fa-youtube' }
                 ]
             },
-            { 
-                name: 'Kay', 
-                subs: '10M+', 
+            {
+                name: 'Kay',
+                subs: '10M+',
                 img: 'kaypfp.jpg',
                 links: [
                     { label: 'Main Channel', url: 'https://www.youtube.com/@Kay', icon: 'fa-youtube' },
                     { label: 'Live Channel', url: 'https://www.youtube.com/@KayClipss', icon: 'fa-youtube' }
                 ]
             },
-            { 
-                name: 'Jarvis', 
-                subs: '7M+', 
+            {
+                name: 'Jarvis',
+                subs: '7M+',
                 img: 'jarvispfp.jpg',
                 links: [
                     { label: 'Main Channel', url: 'https://www.youtube.com/@Jarvisss', icon: 'fa-youtube' },
                     { label: 'Live Channel', url: 'https://www.youtube.com/@jarvisclips', icon: 'fa-youtube' }
                 ]
             },
-            { 
-                name: 'Adin Ross', 
-                subs: '22M+', 
+            {
+                name: 'Adin Ross',
+                subs: '22M+',
                 img: 'adinpfp.jpg',
                 links: [
                     { label: 'Channel', url: 'https://www.youtube.com/@AdinRoss', icon: 'fa-youtube' }
                 ]
             },
-            { 
-                name: 'AsianJeff', 
-                subs: '2M+', 
+            {
+                name: 'AsianJeff',
+                subs: '2M+',
                 img: 'jeffpfp.jpg',
                 links: [
                     { label: 'Main Channel', url: 'https://www.youtube.com/@realasianjeff', icon: 'fa-youtube' },
@@ -1108,7 +1114,7 @@
             renderHeroSliders();
             renderPortfolio();
             renderClients();
-            
+
             // Default filter to thumbnails (since 'all' is removed)
             applyFilter('thumbnails');
 
@@ -1119,9 +1125,9 @@
         function renderHeroSliders() {
             const track1 = document.getElementById('hero-track-1');
             const track2 = document.getElementById('hero-track-2');
-            
+
             const images = ['jrywork1.jpg', 'jrywork2.jpg', 'jrywork3.jpg', 'jrywork4.jpg', 'jrywork7.jpg'];
-            const doubleImages = [...images, ...images]; 
+            const doubleImages = [...images, ...images];
 
             doubleImages.forEach(img => {
                 track1.innerHTML += `<div class="slider-frame"><img src="${img}"></div>`;
@@ -1134,20 +1140,19 @@
 
         function renderPortfolio() {
             const container = document.getElementById('grid-container');
-            
+
             // Build Main Items
             portfolioItems.forEach(item => {
                 const el = document.createElement('div');
                 el.className = `work-item ${item.category}`;
-                
+
                 let mediaHtml = '';
                 if(item.type === 'img') {
                     mediaHtml = `<img src="${item.src}" loading="lazy">`;
                 } else if(item.type === 'ig') {
                     mediaHtml = `<iframe src="https://www.instagram.com/p/${item.igId}/embed" frameborder="0"></iframe>`;
-                } else if(item.type === 'yt') {
-                    mediaHtml = `<div id="yt-player-${item.id}" class="yt-embed-placeholder"></div>`;
                 }
+                // Removed the YouTube video embedding code as per instructions
 
                 el.innerHTML = `
                     <div class="media-frame ${item.ratio}">
@@ -1158,7 +1163,8 @@
                 container.appendChild(el);
             });
 
-            // Build Shorts
+            // Build Shorts (commented out as per instructions)
+            /*
             shortFormIds.forEach((id, index) => {
                 const el = document.createElement('div');
                 el.className = `work-item short-form`;
@@ -1169,14 +1175,13 @@
                 `;
                 container.appendChild(el);
             });
+            */
         }
 
         function renderClients() {
             const container = document.getElementById('clients-container');
-            
-            // We just render once now, no infinite loop needed for snap scroll
+
             clients.forEach((c, index) => {
-                // Pass index to handle click
                 container.innerHTML += `
                     <div class="client-slide">
                         <div class="client-pill" onclick="openClientModal(${index})">
@@ -1201,7 +1206,6 @@
             const modal = document.getElementById('client-modal');
             const body = document.getElementById('modal-body');
 
-            // Generate Link Buttons
             let linksHtml = '';
             client.links.forEach(link => {
                 linksHtml += `
@@ -1235,7 +1239,8 @@
          * ================================================================
          */
         function onYouTubeIframeAPIReady() {
-            // Load Long Form
+            // Load Long Form (commented out as per instructions)
+            /*
             portfolioItems.forEach(item => {
                 if(item.type === 'yt') {
                     new YT.Player(`yt-player-${item.id}`, {
@@ -1250,8 +1255,10 @@
                     });
                 }
             });
+            */
 
-            // Load Shorts
+            // Load Shorts (commented out as per instructions)
+            /*
             shortFormIds.forEach((id, index) => {
                 new YT.Player(`short-player-${index}`, {
                     videoId: id,
@@ -1263,6 +1270,7 @@
                     }
                 });
             });
+            */
         }
 
         /**
@@ -1272,18 +1280,12 @@
         function applyFilter(category) {
             // Update Buttons
             const btns = document.querySelectorAll('.filter-btn');
-            btns.forEach(b => {
-                b.classList.remove('active');
-                // Re-add active class if text matches current category
-                // (Simple logic based on event target if click, else manual loop)
-            });
-            
-            if(event && event.target) {
-                event.target.classList.add('active');
-            } else {
-                // If called manually (init), set active based on category string
-                const match = Array.from(btns).find(b => b.textContent.toLowerCase().includes(category.replace('-', ' ')));
-                if(match) match.classList.add('active');
+            btns.forEach(b => b.classList.remove('active'));
+
+            // Find the button that matches the category and add active class
+            const activeBtn = Array.from(btns).find(b => b.textContent.toLowerCase().trim() === category.replace('-', ' ').toLowerCase());
+            if (activeBtn) {
+                activeBtn.classList.add('active');
             }
 
             // Filter Items

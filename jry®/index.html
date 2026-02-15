@@ -1031,10 +1031,10 @@
             { id: 8, category: 'thumbnails', type: 'img', src: 'jrywork8.jpg', ratio: 'ratio-thumbnail' },
             { id: 9, category: 'thumbnails', type: 'img', src: 'jrywork11.jpg', ratio: 'ratio-thumbnail' },
 
-            // LONG FORM EDITING (commented out as per instructions)
-            // { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
-            // { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
-            // { id: 12, category: 'long-form', type: 'yt', ytId: 'WsxUai7NhhI', ratio: 'ratio-long' }
+            // LONG FORM EDITING
+            { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
+            { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
+            { id: 12, category: 'long-form', type: 'yt', ytId: 'WsxUai7NhhI', ratio: 'ratio-long' }
         ];
 
         const shortFormIds = [
@@ -1151,8 +1151,11 @@
                     mediaHtml = `<img src="${item.src}" loading="lazy">`;
                 } else if(item.type === 'ig') {
                     mediaHtml = `<iframe src="https://www.instagram.com/p/${item.igId}/embed" frameborder="0"></iframe>`;
+                } else if(item.type === 'yt') {
+                    // YOUTUBE REFERRER & ORIGIN FIX:
+                    // Use youtube-nocookie.com + append &origin
+                    mediaHtml = `<div id="yt-player-${item.id}" class="yt-embed-placeholder"></div>`;
                 }
-                // Removed the YouTube video embedding code as per instructions
 
                 el.innerHTML = `
                     <div class="media-frame ${item.ratio}">
@@ -1163,8 +1166,7 @@
                 container.appendChild(el);
             });
 
-            // Build Shorts (commented out as per instructions)
-            /*
+            // Build Shorts
             shortFormIds.forEach((id, index) => {
                 const el = document.createElement('div');
                 el.className = `work-item short-form`;
@@ -1175,7 +1177,6 @@
                 `;
                 container.appendChild(el);
             });
-            */
         }
 
         function renderClients() {
@@ -1239,8 +1240,7 @@
          * ================================================================
          */
         function onYouTubeIframeAPIReady() {
-            // Load Long Form (commented out as per instructions)
-            /*
+            // Load Long Form
             portfolioItems.forEach(item => {
                 if(item.type === 'yt') {
                     new YT.Player(`yt-player-${item.id}`, {
@@ -1255,10 +1255,8 @@
                     });
                 }
             });
-            */
 
-            // Load Shorts (commented out as per instructions)
-            /*
+            // Load Shorts
             shortFormIds.forEach((id, index) => {
                 new YT.Player(`short-player-${index}`, {
                     videoId: id,
@@ -1270,7 +1268,6 @@
                     }
                 });
             });
-            */
         }
 
         /**

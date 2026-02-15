@@ -14,7 +14,7 @@
     <style>
         /* ================================================================
            1. ROOT VARIABLES & THEME DEFINITION
-           Focus: High-intensity Red (#D60000) and Deep Black (#000000)
+           Focus: High-intensity Red (#D60000), Deep Black, and White Accents
            ================================================================
         */
         :root {
@@ -22,20 +22,24 @@
             --primary-red: #D60000;
             --deep-red: #b30000;
             --pure-black: #000000;
+            --off-black: #0a0a0a;
             --text-black: #000000;
             --text-white: #ffffff;
+            --accent-white: #f0f0f0;
             
-            /* Glass Effects */
-            --glass-black: rgba(0, 0, 0, 0.1);
-            --glass-white: rgba(255, 255, 255, 0.15);
-            --border-light: rgba(0, 0, 0, 0.1);
-            --border-dark: rgba(0, 0, 0, 0.3);
+            /* Glass Effects (Dreamy/Modern) */
+            --glass-black: rgba(0, 0, 0, 0.4);
+            --glass-red: rgba(214, 0, 0, 0.1);
+            --glass-white: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --blur-strength: 20px;
 
             /* Layout */
-            --frame-radius: 12px;
-            --section-padding: 100px 8%;
-            --transition-main: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            --shadow-standard: 0 10px 30px rgba(0,0,0,0.2);
+            --frame-radius: 16px;
+            --section-padding: 120px 8%;
+            --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Smoother bezier */
+            --shadow-standard: 0 20px 40px rgba(0,0,0,0.3);
+            --glow-red: 0 0 30px rgba(214, 0, 0, 0.4);
         }
 
         /* ================================================================
@@ -56,7 +60,7 @@
         }
 
         body {
-            background-color: var(--primary-red);
+            background: linear-gradient(180deg, var(--primary-red) 0%, #a00000 100%);
             color: var(--text-black);
             font-family: 'Inter', sans-serif;
             line-height: 1.4;
@@ -65,13 +69,12 @@
         }
 
         ::selection {
-            background: var(--pure-black);
+            background: var(--text-white);
             color: var(--primary-red);
         }
 
-        /* Custom Scrollbar for a modern look */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
             background: var(--primary-red);
@@ -79,6 +82,18 @@
         ::-webkit-scrollbar-thumb {
             background: var(--pure-black);
             border-radius: 10px;
+            border: 1px solid var(--primary-red);
+        }
+
+        /* Scroll Animations Class */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ================================================================
@@ -87,16 +102,21 @@
         */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
+            top: 20px;
+            left: 5%;
+            right: 5%;
+            width: 90%;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: var(--primary-red);
-            border-bottom: 2px solid var(--pure-black);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05); /* Glassy White tint */
+            backdrop-filter: blur(var(--blur-strength));
+            -webkit-backdrop-filter: blur(var(--blur-strength));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .nav-brand {
@@ -105,37 +125,35 @@
             gap: 15px;
             text-decoration: none;
             font-weight: 900;
-            color: var(--pure-black);
+            color: var(--text-white); /* Changed to white for better contrast on glass */
             font-size: 1.4rem;
             letter-spacing: -1px;
             transition: var(--transition-main);
-        }
-
-        .nav-brand:hover {
-            transform: skewX(-5deg);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .nav-logo-img {
             width: 40px;
             height: 40px;
-            border-radius: 8px;
+            border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--pure-black);
+            border: 2px solid var(--text-white);
         }
 
         nav ul {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
 
         nav ul li a {
-            color: var(--pure-black);
+            color: var(--text-white);
             text-decoration: none;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             position: relative;
             transition: var(--transition-main);
         }
@@ -144,15 +162,35 @@
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
+            left: 50%;
             width: 0%;
             height: 2px;
-            background: var(--pure-black);
+            background: var(--text-white);
             transition: var(--transition-main);
+            transform: translateX(-50%);
         }
 
         nav ul li a:hover::after {
             width: 100%;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-white);
+            transition: var(--transition-main);
+        }
+        .social-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
         }
 
         /* ================================================================
@@ -163,8 +201,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 120px 8% 60px 8%;
-            background: var(--primary-red);
+            padding: 160px 8% 60px 8%;
             position: relative;
             overflow: hidden;
         }
@@ -182,26 +219,34 @@
             text-transform: uppercase;
             letter-spacing: 5px;
             opacity: 0.8;
+            mix-blend-mode: overlay;
         }
 
         .hero-title {
-            font-size: clamp(4rem, 12vw, 10rem);
-            line-height: 0.8;
+            font-size: clamp(4rem, 11vw, 9rem);
+            line-height: 0.9;
             margin-bottom: 2.5rem;
             font-weight: 900;
             color: var(--pure-black);
-            letter-spacing: -6px;
+            letter-spacing: -4px;
             text-transform: uppercase;
+            white-space: nowrap; /* Keeps R symbol next to text */
+        }
+        
+        .hero-title span {
+            font-size: 0.4em;
+            vertical-align: top;
+            margin-left: 10px;
         }
 
         .hero-description {
             font-family: 'Times New Roman', serif;
             font-style: italic;
             font-size: 1.8rem;
-            color: var(--pure-black);
+            color: var(--text-white);
             max-width: 500px;
-            line-height: 1.2;
-            opacity: 0.9;
+            line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         /* Slider Logic */
@@ -211,8 +256,9 @@
             display: flex;
             gap: 25px;
             overflow: hidden;
-            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
             padding: 20px 0;
+            transform: skewY(-2deg); /* Added dreamy angle */
         }
 
         .slider-column {
@@ -243,14 +289,13 @@
             100% { transform: translateY(0); }
         }
 
-        /* Standardized Slider Frame */
         .slider-frame {
             width: 100%;
             aspect-ratio: 4/5;
             background: var(--pure-black);
             border-radius: var(--frame-radius);
             overflow: hidden;
-            border: 3px solid var(--pure-black);
+            border: 1px solid rgba(255,255,255,0.2);
             box-shadow: var(--shadow-standard);
         }
 
@@ -259,41 +304,194 @@
             height: 100%;
             object-fit: cover;
             transition: var(--transition-main);
+            filter: grayscale(100%);
+        }
+        
+        .slider-frame:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
         }
 
         /* ================================================================
-           5. VIDEO SHOWREEL (VIDEO.JS)
+           5. TV SHOWREEL (MODERN RETRO)
            ================================================================
         */
         #showreel {
             padding: var(--section-padding);
             background: var(--pure-black);
             text-align: center;
-        }
-
-        .showreel-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            border-radius: 30px;
+            position: relative;
             overflow: hidden;
-            border: 5px solid var(--primary-red);
-            box-shadow: 0 0 50px rgba(214, 0, 0, 0.3);
         }
 
-        /* Video.js Override for Red Theme */
-        .video-js {
-            width: 100% !important;
-            height: auto !important;
-            aspect-ratio: 16 / 9;
+        /* Decorative BG Glow */
+        #showreel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, var(--primary-red) 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .tv-setup {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #111;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 
+                0 0 0 5px #222,
+                0 20px 80px rgba(0,0,0,0.8),
+                0 0 100px rgba(214,0,0,0.2);
+            border: 1px solid #333;
+        }
+
+        .tv-screen-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 4px solid #000;
+        }
+
+        /* The Screen itself */
+        .tv-screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
         }
         
-        .vjs-big-play-button {
-            background-color: var(--primary-red) !important;
-            border-color: var(--pure-black) !important;
-            width: 80px !important;
-            height: 80px !important;
-            line-height: 80px !important;
-            border-radius: 50% !important;
+        /* CRT Turn off effect */
+        .tv-screen.off {
+            animation: turn-off 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        .tv-screen.on {
+            animation: turn-on 4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes turn-on {
+            0% { transform: scale(1, 0.002) skewX(0deg); opacity: 0; }
+            5% { transform: scale(1, 0.002) skewX(0deg); opacity: 1; }
+            10% { transform: scale(1, 1) skewX(0deg); opacity: 1; }
+            100% { transform: scale(1, 1) skewX(0deg); opacity: 1; }
+        }
+        
+        @keyframes turn-off {
+            0% { transform: scale(1, 1.3) translate3d(0, 0, 0); filter: brightness(1); opacity: 1; }
+            60% { transform: scale(1, 0.001) translate3d(0, 0, 0); filter: brightness(10); }
+            100% { animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06); transform: scale(0, 0.0001) translate3d(0, 0, 0); filter: brightness(50); opacity: 0;}
+        }
+
+        /* TV Controls Bar */
+        .tv-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding-top: 25px;
+            padding-bottom: 10px;
+        }
+
+        .tv-btn {
+            background: #222;
+            border: 2px solid #333;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 0 #000;
+        }
+
+        .tv-btn:active {
+            box-shadow: 0 1px 0 #000;
+            transform: translateY(4px);
+        }
+
+        .btn-power {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: #ff0000;
+            font-size: 24px;
+        }
+        
+        .btn-power.active {
+            background: #2a0000;
+            color: #ff3333;
+            box-shadow: 0 0 15px #ff0000, 0 5px 0 #000;
+            border-color: #ff0000;
+        }
+
+        .channel-changer {
+            display: flex;
+            gap: 15px;
+            background: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid #333;
+        }
+
+        .btn-channel {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            font-size: 20px;
+            color: var(--text-white);
+        }
+
+        .channel-display {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ff00;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .tv-noise {
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background-image: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif'); /* Standard static noise gif */
+            background-size: cover;
+            opacity: 0.1;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            z-index: 10;
+        }
+
+        .tv-content-layer {
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+        
+        iframe.tv-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* ================================================================
@@ -302,7 +500,8 @@
         */
         #portfolio {
             padding: var(--section-padding);
-            background: var(--primary-red);
+            background: rgba(255, 255, 255, 0.02); /* Subtle separation */
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .filter-controls {
@@ -314,21 +513,22 @@
         }
 
         .filter-btn {
-            background: transparent;
-            border: 3px solid var(--pure-black);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
             padding: 15px 35px;
             border-radius: 100px;
-            color: var(--pure-black);
-            font-weight: 900;
+            color: var(--text-white);
+            font-weight: 700;
             text-transform: uppercase;
             font-size: 0.8rem;
             letter-spacing: 2px;
             cursor: pointer;
             transition: var(--transition-main);
+            backdrop-filter: blur(5px);
         }
 
         .filter-btn.active, .filter-btn:hover {
-            background: var(--pure-black);
+            background: var(--text-white);
             color: var(--primary-red);
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -336,11 +536,10 @@
 
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 40px;
         }
 
-        /* Standardized Media Frames */
         .work-item {
             display: none;
             opacity: 0;
@@ -360,7 +559,7 @@
             background: var(--pure-black);
             border-radius: 20px;
             overflow: hidden;
-            border: 4px solid var(--pure-black);
+            border: 1px solid rgba(255,255,255,0.1);
             position: relative;
             box-shadow: var(--shadow-standard);
             transition: var(--transition-main);
@@ -369,11 +568,11 @@
         .media-frame:hover {
             transform: scale(1.02);
             border-color: var(--text-white);
+            box-shadow: var(--glow-red);
         }
 
-        /* Framing Ratios */
         .ratio-thumbnail { aspect-ratio: 16 / 9; }
-        .ratio-short { aspect-ratio: 9 / 16; max-width: 350px; margin: 0 auto; }
+        .ratio-short { aspect-ratio: 9 / 16; max-width: 300px; margin: 0 auto; }
         .ratio-long { aspect-ratio: 16 / 9; }
         .ratio-design { aspect-ratio: 1 / 1; }
 
@@ -384,7 +583,6 @@
             display: block;
         }
 
-        /* Badges */
         .badge {
             position: absolute;
             top: 20px;
@@ -401,21 +599,22 @@
         }
 
         /* ================================================================
-           7. CLIENT MARQUEE
+           7. CLIENT MARQUEE & POPUP
            ================================================================
         */
         #clients {
             padding: 100px 0;
             background: var(--pure-black);
             overflow: hidden;
-            border-top: 4px solid var(--pure-black);
+            border-top: 1px solid rgba(255,255,255,0.1);
             border-bottom: 4px solid var(--pure-black);
         }
 
         .marquee-container {
             display: flex;
             width: max-content;
-            animation: marquee-scroll 40s linear infinite;
+            /* Slowed down animation slightly for better readability */
+            animation: marquee-scroll 60s linear infinite; 
         }
 
         @keyframes marquee-scroll {
@@ -427,40 +626,132 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            background: var(--primary-red);
+            background: rgba(255,255,255,0.05); /* Glassy pill */
             padding: 20px 45px;
             border-radius: 200px;
-            margin: 0 20px;
-            border: 3px solid var(--primary-red);
+            margin: 0 10vw; /* HUGE gap to prevent seeing two at once */
+            border: 1px solid rgba(255,255,255,0.1);
             transition: var(--transition-main);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            min-width: 300px;
         }
 
         .client-pill:hover {
             background: var(--text-white);
-            border-color: var(--text-white);
-            transform: scale(1.05);
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255,255,255,0.3);
+        }
+        
+        .client-pill:hover .client-meta h4, 
+        .client-pill:hover .client-meta span {
+            color: var(--pure-black);
         }
 
         .client-avatar {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--pure-black);
+            border: 2px solid var(--text-white);
         }
 
         .client-meta h4 {
-            color: var(--pure-black);
-            font-size: 1.2rem;
+            color: var(--text-white);
+            font-size: 1.4rem;
             font-weight: 900;
             text-transform: uppercase;
+            transition: color 0.3s;
         }
 
         .client-meta span {
-            color: var(--pure-black);
+            color: var(--text-white);
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            transition: color 0.3s;
+        }
+
+        /* MODAL / POPUP STYLE */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .channel-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .channel-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: #D60000;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .channel-link-btn:hover {
+            background: transparent;
+            border-color: #D60000;
+            transform: translateY(-3px);
         }
 
         /* ================================================================
@@ -469,21 +760,22 @@
         */
         footer {
             padding: 120px 8%;
-            background: var(--primary-red);
+            background: var(--pure-black);
             text-align: center;
-            border-top: 4px solid var(--pure-black);
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .footer-logo {
             width: 100px;
             margin-bottom: 30px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            border-radius: 50%;
         }
 
         .footer-text {
             font-weight: 900;
             font-size: 2rem;
-            color: var(--pure-black);
+            color: var(--text-white);
             text-transform: uppercase;
             margin-bottom: 10px;
         }
@@ -493,6 +785,7 @@
             font-style: italic;
             opacity: 0.6;
             margin-bottom: 50px;
+            color: var(--text-white);
         }
 
         .copyright {
@@ -500,7 +793,8 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--pure-black);
+            color: var(--text-white);
+            opacity: 0.5;
         }
 
         /* ================================================================
@@ -509,15 +803,17 @@
         */
         @media (max-width: 1024px) {
             .portfolio-grid { grid-template-columns: 1fr 1fr; }
+            .hero-title { font-size: 6rem; }
         }
 
         @media (max-width: 768px) {
             #home { flex-direction: column; text-align: center; padding-top: 150px; }
-            .hero-visuals { width: 100%; height: 40vh; margin-top: 50px; }
-            .hero-title { font-size: 4.5rem; }
+            .hero-visuals { width: 100%; height: 40vh; margin-top: 50px; transform: skewY(0deg); }
+            .hero-title { font-size: 4.5rem; white-space: normal;}
             .portfolio-grid { grid-template-columns: 1fr; }
-            nav ul { display: none; }
-            .ratio-short { max-width: 100%; }
+            nav ul { display: none; } /* Mobile Menu would go here */
+            .tv-controls { gap: 20px; }
+            .btn-power { width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -529,20 +825,33 @@
             (JRY) ®
         </a>
         <ul>
-            <li><a href="#portfolio" onclick="applyFilter('all')">Portfolio</a></li>
+            <li><a href="#portfolio" onclick="applyFilter('thumbnails')">Portfolio</a></li>
             <li><a href="#showreel">Showreel</a></li>
             <li><a href="#clients">Network</a></li>
+            
+            <div class="social-icons">
+                <a href="https://x.com/JRYDZN1" target="_blank" title="X (Twitter)">
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="https://discord.com/users/704702535964819560" target="_blank" title="Discord">
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z"/>
+                    </svg>
+                </a>
+            </div>
         </ul>
     </nav>
 
     <section id="home">
-        <div class="hero-content">
+        <div class="hero-content reveal-on-scroll">
             <p class="hero-tagline">(Hey I am)</p>
-            <h1 class="hero-title">(JRY)<br>®</h1>
+            <h1 class="hero-title">(JRY)<span>®</span></h1>
             <p class="hero-description">Helping creators dominate the digital scene through next-level editing.</p>
         </div>
 
-        <div class="hero-visuals">
+        <div class="hero-visuals reveal-on-scroll">
             <div class="slider-column">
                 <div class="slider-track" id="hero-track-1">
                     </div>
@@ -555,25 +864,31 @@
     </section>
 
     <section id="showreel">
-        <div class="showreel-container">
-            <video
-                id="main-reel"
-                class="video-js vjs-big-play-centered vjs-theme-city"
-                controls
-                preload="auto"
-                poster="showreel-poster.jpg"
-                data-setup="{}"
-            >
-                <source src="MY_VIDEO.mp4" type="video/mp4" />
-                <p class="vjs-no-js">Please enable JavaScript to view this showreel.</p>
-            </video>
+        <div class="tv-setup reveal-on-scroll">
+            <div class="tv-screen-container">
+                <div class="tv-screen off" id="tv-screen">
+                    <div class="tv-noise"></div>
+                    <div class="channel-display" id="channel-display">CH 01</div>
+                    <div class="tv-content-layer" id="tv-content">
+                        </div>
+                </div>
+            </div>
+            
+            <div class="tv-controls">
+                <button class="tv-btn btn-power" id="power-btn" onclick="toggleTvPower()">
+                    ⏻
+                </button>
+                <div class="channel-changer">
+                    <button class="tv-btn btn-channel" onclick="changeChannel(-1)">▼</button>
+                    <button class="tv-btn btn-channel" onclick="changeChannel(1)">▲</button>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="portfolio">
-        <div class="filter-controls">
-            <button class="filter-btn active" onclick="applyFilter('all')">All Work</button>
-            <button class="filter-btn" onclick="applyFilter('thumbnails')">Thumbnails</button>
+        <div class="filter-controls reveal-on-scroll">
+            <button class="filter-btn active" onclick="applyFilter('thumbnails')">Thumbnails</button>
             <button class="filter-btn" onclick="applyFilter('short-form')">Shorts</button>
             <button class="filter-btn" onclick="applyFilter('long-form')">Editing</button>
             <button class="filter-btn" onclick="applyFilter('designs')">Graphics</button>
@@ -588,10 +903,19 @@
             </div>
     </section>
 
+    <div class="modal-overlay" id="client-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeClientModal()">✕</button>
+            <h2 class="modal-title" id="modal-client-name">CLIENT NAME</h2>
+            <div class="channel-links" id="modal-links">
+                </div>
+        </div>
+    </div>
+
     <footer>
         <img src="logo.jpg" alt="JRY" class="footer-logo">
         <div class="footer-text">(JRY) ®</div>
-        <div class="footer-sub">The best work by any means necessary.</div>
+        <div class="footer-sub">Providing the best work by any means necessary.</div>
         <div class="copyright">
             &copy; 2026 JRY ® <br>
             - All Rights Reserved -
@@ -606,14 +930,13 @@
          * 1. DATA DEFINITION
          * ================================================================
          */
-        const myDomain = "https://yourdomain.com"; // CHANGE THIS TO YOUR ACTUAL DOMAIN
+        const myDomain = window.location.origin;
 
         const portfolioItems = [
             // DESIGN / GRAPHICS
             { id: 1, category: 'designs', type: 'img', src: 'jrydesign1.jpg', ratio: 'ratio-design' },
             { id: 2, category: 'designs', type: 'img', src: 'jrydesign2.jpg', ratio: 'ratio-design' },
             { id: 3, category: 'designs', type: 'ig', igId: 'DRNYTDmjoqZ', ratio: 'ratio-design' },
-            { id: 4, category: 'designs', type: 'img', src: 'logo.jpg', ratio: 'ratio-design' },
 
             // THUMBNAILS
             { id: 5, category: 'thumbnails', type: 'img', src: 'jrywork1.jpg', ratio: 'ratio-thumbnail' },
@@ -633,12 +956,70 @@
             "e13icZUKRzw", "eOkWVthervw"
         ];
 
+        // TV Channel Data (Combines Shorts and Long Form for the Showreel)
+        const tvChannels = [
+            { type: 'yt', id: 'LZnZjiyVVng' }, // Long form start
+            { type: 'short', id: '8yJOBGomdLs' },
+            { type: 'short', id: 'J19Ju5yEDPQ' },
+            { type: 'yt', id: '2fIicVXs76k' },
+            { type: 'short', id: 'R3TjcWE54zE' }
+        ];
+
+        // UPDATED CLIENT DATA
         const clients = [
-            { name: 'Adin Ross', subs: '22M+', img: 'adinpfp.jpg' },
-            { name: 'Jarvis', subs: '7M+', img: 'jarvispfp.jpg' },
-            { name: 'AsianJeff', subs: '2M+', img: 'jeffpfp.jpg' },
-            { name: 'Raud', subs: '1M+', img: 'raudpfp.jpg' },
-            { name: 'Kay', subs: '10M+', img: 'kaypfp.jpg' }
+            { 
+                name: 'Raud', 
+                subs: '1M+', 
+                img: 'raudpfp.jpg',
+                links: [
+                    { label: 'LIVE Channel', url: 'https://www.youtube.com/channel/UC29OtzBQfYcz2GSZlVlROsQ' },
+                    { label: 'Main Channel', url: 'https://www.youtube.com/@raud' }
+                ]
+            },
+            { 
+                name: 'BenDaDonnn', 
+                subs: '500K+', 
+                img: 'bendadonpfp.jpg',
+                links: [
+                    { label: 'LIVE Channel', url: 'https://www.youtube.com/channel/UC6STmDr5IHLnMyQMoh95HQQ' },
+                    { label: 'Main Channel', url: 'https://www.youtube.com/@BenDaDonn' }
+                ]
+            },
+            { 
+                name: 'Kay', 
+                subs: '10M+', 
+                img: 'kaypfp.jpg',
+                links: [
+                    { label: 'Main Channel', url: 'https://www.youtube.com/@Kay' },
+                    { label: 'LIVE Channel', url: 'https://www.youtube.com/@KayClipss' }
+                ]
+            },
+            { 
+                name: 'Jarvis', 
+                subs: '7M+', 
+                img: 'jarvispfp.jpg',
+                links: [
+                    { label: 'Main Channel', url: 'https://www.youtube.com/@Jarvisss' },
+                    { label: 'LIVE Channel', url: 'https://www.youtube.com/@jarvisclips' }
+                ]
+            },
+            { 
+                name: 'Adin Ross', 
+                subs: '22M+', 
+                img: 'adinpfp.jpg',
+                links: [
+                    { label: 'Channel', url: 'https://www.youtube.com/@AdinRoss' }
+                ]
+            },
+            { 
+                name: 'AsianJeff', 
+                subs: '2M+', 
+                img: 'jeffpfp.jpg',
+                links: [
+                    { label: 'Main Channel', url: 'https://www.youtube.com/@realasianjeff' },
+                    { label: 'More AsianJeff', url: 'https://www.youtube.com/@MoreAsianJeff' }
+                ]
+            }
         ];
 
         /**
@@ -650,16 +1031,16 @@
             renderHeroSliders();
             renderPortfolio();
             renderClients();
-            applyFilter('all');
+            applyFilter('thumbnails'); // Default to Thumbnails instead of All
+            initScrollObserver();
         }
 
         function renderHeroSliders() {
             const track1 = document.getElementById('hero-track-1');
             const track2 = document.getElementById('hero-track-2');
             
-            // Loop data to fill tracks
             const images = ['jrywork1.jpg', 'jrywork2.jpg', 'jrywork3.jpg', 'jrywork4.jpg', 'jrywork7.jpg'];
-            const doubleImages = [...images, ...images]; // Doubled for seamless loop
+            const doubleImages = [...images, ...images]; 
 
             doubleImages.forEach(img => {
                 track1.innerHTML += `<div class="slider-frame"><img src="${img}"></div>`;
@@ -684,8 +1065,6 @@
                 } else if(item.type === 'ig') {
                     mediaHtml = `<iframe src="https://www.instagram.com/p/${item.igId}/embed" frameborder="0"></iframe>`;
                 } else if(item.type === 'yt') {
-                    // YOUTUBE REFERRER & ORIGIN FIX:
-                    // Use youtube-nocookie.com + append &origin
                     mediaHtml = `<div id="yt-player-${item.id}" class="yt-embed-placeholder"></div>`;
                 }
 
@@ -713,81 +1092,195 @@
 
         function renderClients() {
             const inner = document.getElementById('marquee-inner');
+            // Duplicate multiple times to fill space because gap is huge
             const doubleClients = [...clients, ...clients, ...clients];
             
-            doubleClients.forEach(c => {
+            doubleClients.forEach((c, index) => {
+                // Pass index % clients.length to map back to original data correctly
                 inner.innerHTML += `
-                    <div class="client-pill">
+                    <div class="client-pill" onclick="openClientModal(${index % clients.length})">
                         <img src="${c.img}" class="client-avatar" onerror="this.src='logo.jpg'">
                         <div class="client-meta">
                             <h4>${c.name}</h4>
-                            <span>${c.subs} REACH</span>
+                            <span>${c.subs} FOLLOWERS</span>
                         </div>
                     </div>
                 `;
             });
         }
 
+        // Scroll Animation Logic
+        function initScrollObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        }
+
         /**
-         * 3. YOUTUBE API INTEGRATION
-         * Fixes: youtube-nocookie, origin parameter, removed referrerpolicy
+         * 3. TV LOGIC
+         * ================================================================
+         */
+        let isTvOn = false;
+        let currentChannelIndex = 0;
+        let tvPlayer = null;
+
+        function toggleTvPower() {
+            const screen = document.getElementById('tv-screen');
+            const powerBtn = document.getElementById('power-btn');
+            
+            isTvOn = !isTvOn;
+
+            if (isTvOn) {
+                screen.classList.remove('off');
+                screen.classList.add('on');
+                powerBtn.classList.add('active');
+                loadChannel(currentChannelIndex);
+            } else {
+                screen.classList.remove('on');
+                screen.classList.add('off');
+                powerBtn.classList.remove('active');
+                // Stop video by clearing container
+                document.getElementById('tv-content').innerHTML = '';
+            }
+        }
+
+        function changeChannel(direction) {
+            if (!isTvOn) return;
+
+            // Simple static effect on change
+            const screen = document.getElementById('tv-screen');
+            const noise = document.querySelector('.tv-noise');
+            noise.style.opacity = '0.8'; // High static
+            
+            setTimeout(() => {
+                noise.style.opacity = '0.1'; // Back to normal
+            }, 300);
+
+            // Calc index
+            currentChannelIndex += direction;
+            if (currentChannelIndex >= tvChannels.length) currentChannelIndex = 0;
+            if (currentChannelIndex < 0) currentChannelIndex = tvChannels.length - 1;
+
+            loadChannel(currentChannelIndex);
+        }
+
+        function loadChannel(index) {
+            const channelDisplay = document.getElementById('channel-display');
+            channelDisplay.innerText = `CH 0${index + 1}`;
+            channelDisplay.style.opacity = 1;
+            setTimeout(() => channelDisplay.style.opacity = 0, 2000);
+
+            const container = document.getElementById('tv-content');
+            const data = tvChannels[index];
+
+            // Re-render iframe
+            // Note: For smoother transitions in a real app, we'd pre-load, but this works for the prompt
+            container.innerHTML = `<div id="tv-player-embed"></div>`;
+
+            if (window.YT) {
+                new YT.Player('tv-player-embed', {
+                    videoId: data.id,
+                    host: 'https://www.youtube-nocookie.com',
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 0,
+                        'modestbranding': 1,
+                        'rel': 0,
+                        'playsinline': 1
+                    },
+                    events: {
+                        'onReady': (event) => event.target.playVideo()
+                    }
+                });
+            }
+        }
+
+        /**
+         * 4. CLIENT POPUP LOGIC
+         * ================================================================
+         */
+        function openClientModal(index) {
+            const client = clients[index];
+            const modal = document.getElementById('client-modal');
+            const nameEl = document.getElementById('modal-client-name');
+            const linksContainer = document.getElementById('modal-links');
+
+            nameEl.innerText = client.name;
+            linksContainer.innerHTML = '';
+
+            client.links.forEach(link => {
+                linksContainer.innerHTML += `
+                    <a href="${link.url}" target="_blank" class="channel-link-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        </svg>
+                        ${link.label}
+                    </a>
+                `;
+            });
+
+            modal.classList.add('active');
+        }
+
+        function closeClientModal() {
+            document.getElementById('client-modal').classList.remove('active');
+        }
+
+        // Close on clicking outside content
+        document.getElementById('client-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'client-modal') closeClientModal();
+        });
+
+        /**
+         * 5. YOUTUBE API INTEGRATION
          * ================================================================
          */
         function onYouTubeIframeAPIReady() {
-            // Load Long Form
+            // Load Long Form Portfolio
             portfolioItems.forEach(item => {
                 if(item.type === 'yt') {
                     new YT.Player(`yt-player-${item.id}`, {
                         videoId: item.ytId,
                         host: 'https://www.youtube-nocookie.com',
-                        playerVars: {
-                            'origin': myDomain,
-                            'rel': 0,
-                            'modestbranding': 1,
-                            'enablejsapi': 1
-                        }
+                        playerVars: { 'origin': myDomain, 'rel': 0 }
                     });
                 }
             });
 
-            // Load Shorts
+            // Load Shorts Portfolio
             shortFormIds.forEach((id, index) => {
                 new YT.Player(`short-player-${index}`, {
                     videoId: id,
                     host: 'https://www.youtube-nocookie.com',
-                    playerVars: {
-                        'origin': myDomain,
-                        'rel': 0,
-                        'playsinline': 1
-                    }
+                    playerVars: { 'origin': myDomain, 'rel': 0, 'playsinline': 1 }
                 });
             });
         }
 
         /**
-         * 4. UTILITIES
+         * 6. UTILITIES
          * ================================================================
          */
         function applyFilter(category) {
-            // Update Buttons
             const btns = document.querySelectorAll('.filter-btn');
             btns.forEach(b => b.classList.remove('active'));
             if(event) event.target.classList.add('active');
 
-            // Filter Items
             const items = document.querySelectorAll('.work-item');
             items.forEach(item => {
                 item.classList.remove('show');
-                if(category === 'all' || item.classList.contains(category)) {
-                    // Tiny timeout for animation stagger
-                    setTimeout(() => {
-                        item.classList.add('show');
-                    }, 50);
+                if(item.classList.contains(category)) {
+                    setTimeout(() => item.classList.add('show'), 50);
                 }
             });
         }
 
-        // Run Init
         window.addEventListener('DOMContentLoaded', init);
 
     </script>

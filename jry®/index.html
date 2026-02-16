@@ -629,29 +629,25 @@ nav ul li a:hover::after {
 
 /* Snap Container */
 .client-snap-container {
-    display: flex;
-    overflow: hidden; /* Prevent scrolling */
-    scroll-snap-type: none; /* Remove snap points */
-    gap: 0; /* No gap */
-    padding-bottom: 40px; /* Space for scrollbar if visible */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-    justify-content: center; /* Center the client slide */
-    align-items: center; /* Center the client slide */
+    position: relative;
+    width: 100%;
+    height: 200px; /* Fixed height for the slider */
+    overflow: hidden;
 }
 
-.client-snap-container::-webkit-scrollbar {
-    display: none;
+.client-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease; /* Smooth transition for sliding */
 }
 
 .client-slide {
-    flex: 0 0 100%; /* Takes full width */
-    scroll-snap-align: none; /* Remove snap alignment */
+    flex: 0 0 100%; /* Each slide takes up the full width of the container */
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    width: 100%; /* Ensure the client slide takes full width */
 }
 
 /* The Pill Design */
@@ -753,11 +749,11 @@ nav ul li a:hover::after {
 }
 
 .left-arrow {
-    left: 10px;
+    left: calc(50% - 100px); /* Position closer to the middle */
 }
 
 .right-arrow {
-    right: 10px;
+    right: calc(50% - 100px); /* Position closer to the middle */
 }
 
 /* CLIENT POPUP MODAL */
@@ -1284,9 +1280,8 @@ footer {
             { id: 7, category: 'thumbnails', type: 'img', src: 'jrywork9.jpg', ratio: 'ratio-thumbnail' },
             { id: 8, category: 'thumbnails', type: 'img', src: 'jrywork10.jpg', ratio: 'ratio-thumbnail' },
             { id: 9, category: 'thumbnails', type: 'img', src: 'jrywork11.jpg', ratio: 'ratio-thumbnail' },
-          
-          
-          //Change this to code to add more
+
+            //Change this to code to add more
             //{ id: 10, category: 'thumbnails', type: 'img', src: 'jrywork12.jpg', ratio: 'ratio-thumbnail' },
             //{ id: 11, category: 'thumbnails', type: 'img', src: 'jrywork13.jpg', ratio: 'ratio-thumbnail' },
             //{ id: 12, category: 'thumbnails', type: 'img', src: 'jrywork14.jpg', ratio: 'ratio-thumbnail' },
@@ -1297,7 +1292,6 @@ footer {
             //{ id: 17, category: 'thumbnails', type: 'img', src: 'jrywork19.jpg', ratio: 'ratio-thumbnail' },
             //{ id: 18, category: 'thumbnails', type: 'img', src: 'jrywork20.jpg', ratio: 'ratio-thumbnail' },
 
-            
             // LONG FORM EDITING
             { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
             { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
@@ -1407,11 +1401,12 @@ footer {
             const container = document.getElementById('clients-container');
             container.innerHTML = ''; // Clear the container
 
+            const track = document.createElement('div');
+            track.className = 'client-track';
+
             clients.forEach((c, index) => {
                 const clientSlide = document.createElement('div');
                 clientSlide.className = 'client-slide';
-                clientSlide.style.display = index === 0 ? 'flex' : 'none'; // Show only the first client initially
-                clientSlide.style.opacity = index === 0 ? '1' : '0'; // Set opacity for smooth transition
 
                 const clientPill = document.createElement('div');
                 clientPill.className = 'client-pill';
@@ -1426,8 +1421,10 @@ footer {
                 `;
 
                 clientSlide.appendChild(clientPill);
-                container.appendChild(clientSlide);
+                track.appendChild(clientSlide);
             });
+
+            container.appendChild(track);
 
             // Add arrow buttons for manual navigation
             const leftArrow = document.createElement('button');
@@ -1448,47 +1445,39 @@ footer {
         }
 
         function navigateClients(direction) {
-            const clients = document.querySelectorAll('.client-slide');
-            let currentIndex = Array.from(clients).findIndex(client => client.style.display === 'flex');
+            const track = document.querySelector('.client-track');
+            const slides = document.querySelectorAll('.client-slide');
+            let currentIndex = Math.round(track.scrollLeft / track.offsetWidth);
+            let nextIndex = (currentIndex + direction + slides.length) % slides.length;
 
-            // Hide the current client with a smooth transition
-            clients[currentIndex].style.opacity = '0';
+            // Update the transform to slide to the next slide
+            track.style.transition = 'transform 0.5s ease';
+            track.style.transform = `translateX(-${nextIndex * 100}%)`;
+
+            // Reset transition after it completes to allow for immediate response to manual navigation
             setTimeout(() => {
-                clients[currentIndex].style.display = 'none';
-
-                // Calculate the next index with wrapping for infinite loop
-                let nextIndex = (currentIndex + direction + clients.length) % clients.length;
-
-                // Show the next client
-                clients[nextIndex].style.display = 'flex';
-                setTimeout(() => {
-                    clients[nextIndex].style.opacity = '1';
-                }, 50);
-            }, 500); // Match the transition duration
+                track.style.transition = 'none';
+            }, 500);
         }
 
         function startClientCycling() {
-            const clients = document.querySelectorAll('.client-slide');
+            const track = document.querySelector('.client-track');
+            const slides = document.querySelectorAll('.client-slide');
             let currentIndex = 0;
 
-            // Show the first client initially
-            clients[currentIndex].style.display = 'flex';
-            clients[currentIndex].style.opacity = '1';
+            // Set initial position
+            track.style.transform = 'translateX(0)';
 
             setInterval(() => {
-                // Hide the current client with a smooth transition
-                clients[currentIndex].style.opacity = '0';
-                setTimeout(() => {
-                    clients[currentIndex].style.display = 'none';
+                currentIndex = (currentIndex + 1) % slides.length;
+                track.style.transition = 'transform 0.5s ease';
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-                    // Show the next client
-                    currentIndex = (currentIndex + 1) % clients.length;
-                    clients[currentIndex].style.display = 'flex';
-                    setTimeout(() => {
-                        clients[currentIndex].style.opacity = '1';
-                    }, 50);
-                }, 500); // Match the transition duration
-            }, 3000); // Change client every 3 seconds
+                // Reset transition after it completes
+                setTimeout(() => {
+                    track.style.transition = 'none';
+                }, 500);
+            }, 3000); // Change slide every 3 seconds
         }
 
         /**

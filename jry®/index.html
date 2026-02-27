@@ -137,7 +137,7 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-        
+
         .floating-element {
             animation: float-anim 4s ease-in-out infinite;
         }
@@ -401,7 +401,7 @@
             border: 2px solid rgba(0,0,0,0.5);
             box-shadow: var(--shadow-standard);
             /* Prevent shrinking in flex containers */
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
 
         .slider-frame img {
@@ -636,11 +636,11 @@
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s ease; 
+            transition: transform 0.5s ease;
         }
 
         .client-slide {
-            flex: 0 0 100%; 
+            flex: 0 0 100%;
             width: 100%;
             height: 100%;
             display: flex;
@@ -948,7 +948,7 @@
 
         @media (max-width: 768px) {
             #home { flex-direction: column; text-align: center; padding-top: 150px; }
-            
+
             /* FIXED MOBILE HERO SLIDER */
             .hero-visuals {
                 display: flex;
@@ -957,7 +957,7 @@
                 height: auto;
                 width: 100%;
                 /* Remove mask image on mobile so it doesn't look cut off awkwardly */
-                mask-image: none; 
+                mask-image: none;
                 -webkit-mask-image: none;
             }
 
@@ -977,7 +977,7 @@
                 /* Apply new horizontal animations */
                 animation: scroll-left 40s linear infinite;
             }
-            
+
             .slider-track.reverse {
                 animation: scroll-right 45s linear infinite;
             }
@@ -1001,7 +1001,7 @@
 
             .client-snap-container { width: 100%; }
             .client-slide { width: 100%; }
-            
+
             .client-pill {
                 min-width: 300px;
                 padding: 20px 30px;
@@ -1110,6 +1110,7 @@
             <div class="nav-contact-icons">
                 <a href="https://x.com/JRYDZN1" target="_blank" class="nav-icon"><i class="fa-brands fa-x-twitter"></i></a>
                 <a href="https://discord.com/users/704702535964819560" target="_blank" class="nav-icon"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.instagram.com/jrydzn/" target="_blank" class="nav-icon"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </ul>
     </nav>
@@ -1161,6 +1162,11 @@
                 <a href="https://discord.com/users/704702535964819560" target="_blank" class="contact-card">
                     <i class="fa-brands fa-discord"></i>
                     <span>Chat on Discord</span>
+                </a>
+                <a href="https://www.instagram.com/jrydzn/" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
+                    <span>Follow on</span>
                 </a>
             </div>
         </div>
@@ -1302,9 +1308,9 @@
             const track2 = document.getElementById('hero-track-2');
 
             const images = ['jrywork1.jpg', 'jrywork2.jpg', 'jrywork5.jpg', 'jrywork6.jpg', 'jrywork7.jpg', 'jrywork8.jpg', 'jrywork9.jpg', 'jrywork10.jpg', 'jrywork11.jpg'];
-            
+
             // Triple the images to ensure smooth looping on wide mobile screens
-            const loopImages = [...images, ...images, ...images]; 
+            const loopImages = [...images, ...images, ...images];
 
             loopImages.forEach(img => {
                 track1.innerHTML += `<div class="slider-frame"><img src="${img}" onerror="this.style.display='none'"></div>`;
@@ -1321,7 +1327,7 @@
 
         function renderClients() {
             const container = document.getElementById('clients-container');
-            container.innerHTML = ''; 
+            container.innerHTML = '';
 
             const track = document.createElement('div');
             track.className = 'client-track';
@@ -1350,7 +1356,7 @@
 
             // Add arrows to the wrapper, not the track container
             const wrapper = container.parentElement;
-            
+
             // Remove old arrows if any (prevent duplicates on re-render)
             const oldArrows = wrapper.querySelectorAll('.client-nav-arrow');
             oldArrows.forEach(arrow => arrow.remove());
@@ -1381,9 +1387,9 @@
         function manualNavigate(direction) {
             // Stop auto-cycling on interaction
             clearInterval(clientInterval);
-            
+
             currentClientIndex += direction;
-            
+
             // Handle Looping
             if (currentClientIndex >= clients.length) {
                 currentClientIndex = 0;
@@ -1392,14 +1398,14 @@
             }
 
             updateClientTrack();
-            
+
             // Restart cycle after delay
             setTimeout(startClientCycling, 5000);
         }
 
         function startClientCycling() {
             if (clientInterval) clearInterval(clientInterval);
-            
+
             clientInterval = setInterval(() => {
                 currentClientIndex++;
                 if (currentClientIndex >= clients.length) {
@@ -1483,13 +1489,13 @@
             if (activeBtn) activeBtn.classList.add('active');
 
             const items = document.querySelectorAll('.work-item');
-            
+
             // Staggered Animation Logic
             let delayCounter = 0;
             items.forEach(item => {
                 item.classList.remove('show');
                 item.style.animationDelay = '0s'; // Reset delay
-                
+
                 if(item.classList.contains(category)) {
                     setTimeout(() => {
                         item.style.animationDelay = `${delayCounter * 0.1}s`; // Add staggered delay

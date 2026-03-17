@@ -731,7 +731,7 @@
             padding: 10px 15px;
             cursor: pointer;
             font-size: 1.5rem;
-            z-index: 20; /* Increased Z-Index */
+            z-index: 20;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -743,7 +743,6 @@
 
         .client-nav-arrow:hover { background: rgba(255, 255, 255, 0.8); }
 
-        /* Adjusted arrow positioning for better mobile/desktop feel */
         .left-arrow { left: 5%; }
         .right-arrow { right: 5%; }
 
@@ -949,14 +948,12 @@
         @media (max-width: 768px) {
             #home { flex-direction: column; text-align: center; padding-top: 150px; }
 
-            /* FIXED MOBILE HERO SLIDER */
             .hero-visuals {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
                 height: auto;
                 width: 100%;
-                /* Remove mask image on mobile so it doesn't look cut off awkwardly */
                 mask-image: none;
                 -webkit-mask-image: none;
             }
@@ -966,15 +963,14 @@
                 flex-direction: row;
                 gap: 20px;
                 width: 100%;
-                overflow: hidden; /* Hide scrollbar */
+                overflow: hidden;
                 padding: 10px 0;
             }
 
             .slider-track {
                 display: flex;
                 flex-direction: row;
-                width: max-content; /* Allow track to be as long as needed */
-                /* Apply new horizontal animations */
+                width: max-content;
                 animation: scroll-left 40s linear infinite;
             }
 
@@ -1203,32 +1199,48 @@
             { id: 6, category: 'designs', type: 'ig', igId: 'DRNYTDmjoqZ', ratio: 'ratio-design' },
 
             // THUMBNAILS
-            { id: 1, category: 'thumbnails', type: 'img', src: 'jrywork1.jpg', ratio: 'ratio-thumbnail' },
-            { id: 2, category: 'thumbnails', type: 'img', src: 'jrywork2.jpg', ratio: 'ratio-thumbnail' },
-            { id: 3, category: 'thumbnails', type: 'img', src: 'jrywork5.jpg', ratio: 'ratio-thumbnail', viral: true },
-            { id: 4, category: 'thumbnails', type: 'img', src: 'jrywork6.jpg', ratio: 'ratio-thumbnail' },
-            { id: 5, category: 'thumbnails', type: 'img', src: 'jrywork7.jpg', ratio: 'ratio-thumbnail' },
-            { id: 6, category: 'thumbnails', type: 'img', src: 'jrywork8.jpg', ratio: 'ratio-thumbnail' },
-            { id: 7, category: 'thumbnails', type: 'img', src: 'jrywork9.jpg', ratio: 'ratio-thumbnail' },
-            { id: 8, category: 'thumbnails', type: 'img', src: 'jrywork10.jpg', ratio: 'ratio-thumbnail' },
-            { id: 9, category: 'thumbnails', type: 'img', src: 'jrywork11.jpg', ratio: 'ratio-thumbnail' },
+            { id: 1,  category: 'thumbnails', type: 'img', src: 'jrywork1.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 2,  category: 'thumbnails', type: 'img', src: 'jrywork2.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 3,  category: 'thumbnails', type: 'img', src: 'jrywork5.jpg',  ratio: 'ratio-thumbnail', viral: true },
+            { id: 4,  category: 'thumbnails', type: 'img', src: 'jrywork6.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 5,  category: 'thumbnails', type: 'img', src: 'jrywork7.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 6,  category: 'thumbnails', type: 'img', src: 'jrywork8.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 7,  category: 'thumbnails', type: 'img', src: 'jrywork9.jpg',  ratio: 'ratio-thumbnail' },
+            { id: 8,  category: 'thumbnails', type: 'img', src: 'jrywork10.jpg', ratio: 'ratio-thumbnail' },
+            { id: 9,  category: 'thumbnails', type: 'img', src: 'jrywork11.jpg', ratio: 'ratio-thumbnail' },
             { id: 10, category: 'thumbnails', type: 'img', src: 'jrywork13.jpg', ratio: 'ratio-thumbnail' },
-            { id: 11, category: 'thumbnails', type: 'img', src: 'jrywork14jpg', ratio: 'ratio-thumbnail' },
+            { id: 11, category: 'thumbnails', type: 'img', src: 'jrywork14.jpg', ratio: 'ratio-thumbnail' },
             { id: 12, category: 'thumbnails', type: 'img', src: 'jrywork15.jpg', ratio: 'ratio-thumbnail' },
             { id: 13, category: 'thumbnails', type: 'img', src: 'jrywork16.jpg', ratio: 'ratio-thumbnail' },
             { id: 14, category: 'thumbnails', type: 'img', src: 'jrywork12.jpg', ratio: 'ratio-thumbnail' },
+            // NEW THUMBNAILS
+            { id: 15, category: 'thumbnails', type: 'img', src: 'jrywork17.jpg', ratio: 'ratio-thumbnail' },
+            { id: 16, category: 'thumbnails', type: 'img', src: 'jrywork18.jpg', ratio: 'ratio-thumbnail' },
+            { id: 17, category: 'thumbnails', type: 'img', src: 'jrywork19.jpg', ratio: 'ratio-thumbnail' },
+            { id: 18, category: 'thumbnails', type: 'img', src: 'jrywork20.jpg', ratio: 'ratio-thumbnail' },
+            { id: 19, category: 'thumbnails', type: 'img', src: 'jrywork21.jpg', ratio: 'ratio-thumbnail' },
+            { id: 20, category: 'thumbnails', type: 'img', src: 'jrywork22.jpg', ratio: 'ratio-thumbnail' },
 
             // LONG FORM EDITING
             { id: 10, category: 'long-form', type: 'yt', ytId: 'LZnZjiyVVng', ratio: 'ratio-long' },
             { id: 11, category: 'long-form', type: 'yt', ytId: '2fIicVXs76k', ratio: 'ratio-long' },
             { id: 12, category: 'long-form', type: 'yt', ytId: 'WsxUai7NhhI', ratio: 'ratio-long' },
             { id: 13, category: 'long-form', type: 'yt', ytId: '2qmTDXIblQI', ratio: 'ratio-long' },
-            { id: 14, category: 'long-form', type: 'yt', ytId: '6-MjVxPEah8', ratio: 'ratio-long' }
+            { id: 14, category: 'long-form', type: 'yt', ytId: '6-MjVxPEah8', ratio: 'ratio-long' },
+            // NEW LONG FORM
+            { id: 15, category: 'long-form', type: 'yt', ytId: '_kQEJyvzsio', ratio: 'ratio-long' },
+            { id: 16, category: 'long-form', type: 'yt', ytId: 'Qs2jH3K1wSw', ratio: 'ratio-long' },
+            { id: 17, category: 'long-form', type: 'yt', ytId: 'JANUPC4Ell4', ratio: 'ratio-long' }
         ];
 
+        // SHORT FORM — original + new
         const shortFormIds = [
+            // Original
             "8yJOBGomdLs", "J19Ju5yEDPQ", "R3TjcWE54zE", "xQe6bLSXPoI",
-            "e13icZUKRzw", "eOkWVthervw", "-vyZNoqmjD4", "wit1MN-rVdI"
+            "e13icZUKRzw", "eOkWVthervw", "-vyZNoqmjD4", "wit1MN-rVdI",
+            // New
+            "w1Vc5Z85pgY", "QXtTOd8n0W8", "6PxEA_qL868",
+            "25q-mO9ldGk", "IsR0Ix443Yc", "9qrSY9nJACE"
         ];
 
         const clients = [
@@ -1354,10 +1366,8 @@
 
             container.appendChild(track);
 
-            // Add arrows to the wrapper, not the track container
             const wrapper = container.parentElement;
 
-            // Remove old arrows if any (prevent duplicates on re-render)
             const oldArrows = wrapper.querySelectorAll('.client-nav-arrow');
             oldArrows.forEach(arrow => arrow.remove());
 
@@ -1385,12 +1395,10 @@
         }
 
         function manualNavigate(direction) {
-            // Stop auto-cycling on interaction
             clearInterval(clientInterval);
 
             currentClientIndex += direction;
 
-            // Handle Looping
             if (currentClientIndex >= clients.length) {
                 currentClientIndex = 0;
             } else if (currentClientIndex < 0) {
@@ -1399,7 +1407,6 @@
 
             updateClientTrack();
 
-            // Restart cycle after delay
             setTimeout(startClientCycling, 5000);
         }
 
@@ -1441,12 +1448,12 @@
             `;
 
             modal.classList.add('active');
-            clearInterval(clientInterval); // Pause slider when modal is open
+            clearInterval(clientInterval);
         }
 
         function closeModal() {
             document.getElementById('client-modal').classList.remove('active');
-            startClientCycling(); // Resume slider
+            startClientCycling();
         }
 
         document.getElementById('client-modal').addEventListener('click', function(e) {
@@ -1490,15 +1497,14 @@
 
             const items = document.querySelectorAll('.work-item');
 
-            // Staggered Animation Logic
             let delayCounter = 0;
             items.forEach(item => {
                 item.classList.remove('show');
-                item.style.animationDelay = '0s'; // Reset delay
+                item.style.animationDelay = '0s';
 
                 if(item.classList.contains(category)) {
                     setTimeout(() => {
-                        item.style.animationDelay = `${delayCounter * 0.1}s`; // Add staggered delay
+                        item.style.animationDelay = `${delayCounter * 0.1}s`;
                         item.classList.add('show');
                         delayCounter++;
                     }, 50);

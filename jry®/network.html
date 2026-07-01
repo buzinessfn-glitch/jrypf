@@ -22,11 +22,12 @@
             --transition-smooth: all 0.6s cubic-bezier(0.22,1,0.36,1);
             --transition-bounce: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
         }
+        
         * { margin:0; padding:0; box-sizing:border-box; outline:none; -webkit-tap-highlight-color:transparent; }
         html { scroll-behavior:smooth; background-color:var(--primary-red); }
         body {
             background-color:var(--primary-red);
-            background-image:linear-gradient(135deg,var(--primary-red) 0%,#a30000 100%);
+            background-image: radial-gradient(circle at center, #f00000 0%, var(--primary-red) 70%, #990000 100%);
             color:#000; font-family:'Inter',sans-serif; line-height:1.5; overflow-x:hidden;
         }
         ::selection { background:var(--text-white); color:var(--primary-red); }
@@ -98,7 +99,7 @@
 
         /* PAGE HEADER */
         .page-header {
-            padding: 160px 8% 60px;
+            padding: 160px 8% 40px;
             text-align: center;
         }
         .page-header h1 {
@@ -108,7 +109,8 @@
             text-transform: uppercase;
             letter-spacing: -3px;
             line-height: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .page-header p {
             font-family: 'Times New Roman', serif;
@@ -117,35 +119,84 @@
             color: var(--pure-black);
             opacity: 0.85;
         }
-        .header-divider {
-            height: 3px;
-            width: 80px;
-            background: var(--pure-black);
-            margin: 25px auto 0;
-            border-radius: 2px;
-        }
 
-        /* NETWORK GRID */
+        /* RADIAL SLIDER SECTION */
         #network-section {
-            padding: 0 5% 120px;
+            position: relative;
+            width: 100%;
+            height: 75vh;
+            min-height: 500px;
+            overflow: hidden;
+            cursor: grab;
+            display: flex;
+            justify-content: center;
         }
-        .network-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-            /* Padding ensures drop shadows are never clipped */
-            padding: 24px;
+        #network-section:active {
+            cursor: grabbing;
+        }
+        
+        .drag-indicator {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--pure-black);
+            color: var(--text-white);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
         }
 
-        /* PILL */
+        /* The central axis of rotation */
+        .wheel-center {
+            position: absolute;
+            bottom: -50px; /* Aligns the center of rotation near the bottom */
+            left: 50%;
+            width: 0; 
+            height: 0;
+            z-index: 10;
+        }
+
+        /* Visual dotted rings */
+        .wheel-track {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px dashed rgba(0,0,0,0.15);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* PILL WRAPPER & PILLS */
+        .client-pill-wrapper {
+            position: absolute;
+            left: 50%; top: 50%;
+            z-index: 10;
+            /* width handles standard pill sizing safely without wrapping text */
+            width: max-content; 
+        }
+
         .client-pill {
             display: flex;
             align-items: center;
             gap: 14px;
             background: rgba(255,255,255,0.96);
-            padding: 18px 22px;
+            padding: 14px 20px;
             border-radius: 200px;
             border: 3px solid var(--pure-black);
             box-shadow: 0 12px 35px rgba(0,0,0,0.25);
@@ -153,26 +204,42 @@
             text-decoration: none;
             cursor: pointer;
             width: 100%;
+            max-width: 260px;
+            
+            /* Entry animation logic */
+            opacity: 0;
+            transform: scale(0.5);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
+        
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .client-pill:hover {
-            transform: translateY(-6px) scale(1.03);
+            transform: translateY(-6px) scale(1.05);
             background: var(--pure-black);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            z-index: 20;
         }
+
         .client-avatar {
-            width: 54px;
-            height: 54px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--pure-black);
             flex-shrink: 0;
             transition: border-color 0.3s;
+            background: var(--pure-black);
         }
         .client-pill:hover .client-avatar { border-color: var(--text-white); }
-        .client-meta { display:flex; flex-direction:column; min-width:0; }
+        
+        .client-meta { display:flex; flex-direction:column; min-width:0; text-align: left; }
+        
         .client-name {
             color: var(--pure-black);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -184,7 +251,7 @@
         }
         .client-subs {
             color: var(--pure-black);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 700;
             opacity: 0.65;
             letter-spacing: 0.5px;
@@ -194,7 +261,7 @@
         .client-pill:hover .client-subs { color: var(--text-white); opacity: 1; }
 
         /* FOOTER */
-        footer { padding:80px 8%; background:var(--primary-red); text-align:center; }
+        footer { padding:80px 8%; background:var(--primary-red); text-align:center; position: relative; z-index: 20;}
         .footer-logo { width:100px; margin-bottom:25px; border-radius:15px; border:2px solid var(--pure-black); }
         .footer-text { font-weight:900; font-size:2rem; color:var(--pure-black); text-transform:uppercase; margin-bottom:8px; letter-spacing:-1px; }
         .footer-sub { font-family:'Times New Roman',serif; font-style:italic; opacity:0.8; margin-bottom:40px; font-size:1.1rem; color:var(--pure-black); }
@@ -214,8 +281,6 @@
         #back-to-top:hover { transform:translateY(-5px); background:var(--text-white); color:var(--pure-black); }
 
         /* RESPONSIVE */
-        @media (max-width:1200px) { .network-grid { grid-template-columns:repeat(3,1fr); } }
-        @media (max-width:900px)  { .network-grid { grid-template-columns:repeat(2,1fr); } }
         @media (max-width:768px) {
             nav ul li { display:none; }
             .nav-contact-icons { display:flex; margin-left:auto; border:none; }
@@ -228,12 +293,13 @@
             nav.active { transform:translateY(0); }
             nav ul { flex-direction:column; gap:1rem; width:100%; }
             nav ul li { display:block; margin:0; text-align:center; }
-            .network-grid { grid-template-columns:repeat(2,1fr); gap:16px; padding:16px; }
-            .client-pill { padding:14px 16px; gap:10px; }
-            .client-avatar { width:44px; height:44px; }
-            .client-name { font-size:0.85rem; }
+            
+            .client-pill { padding:10px 14px; gap:10px; max-width: 200px; }
+            .client-avatar { width:40px; height:40px; border-width: 2px;}
+            .client-name { font-size:0.8rem; }
+            .client-subs { font-size: 0.6rem; }
+            #network-section { height: 60vh; min-height: 400px; }
         }
-        @media (max-width:440px) { .network-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -268,11 +334,12 @@
     <div class="page-header reveal-on-scroll">
         <h1>(Network)</h1>
         <p>Creators I've worked with.</p>
-        <div class="header-divider"></div>
     </div>
 
-    <section id="network-section">
-        <div class="network-grid" id="network-grid"></div>
+    <section id="network-section" class="reveal-on-scroll">
+        <div class="drag-indicator"><i class="fas fa-arrows-left-right"></i> Drag to Explore</div>
+        <div id="wheel-center" class="wheel-center">
+            </div>
     </section>
 
     <footer>
@@ -286,37 +353,77 @@
     </footer>
 
     <script>
-        // Biggest creators first, then descending
         const clients = [
-            { name: 'Adin Ross',      img: 'adinpfp.jpg',          subs: '22M+',  url: 'https://www.youtube.com/@AdinRoss' },
-            { name: 'Kay',            img: 'kaypfp.jpg',            subs: '10M+',  url: 'https://www.youtube.com/@Kay' },
-            { name: 'Jarvis',         img: 'jarvispfp.jpg',         subs: '7M+',   url: 'https://www.youtube.com/@Jarvisss' },
-            { name: 'FunnyMike',      img: 'funnymikepfp.jpg',      subs: null,    url: 'https://www.youtube.com/@FunnyMike_Live' },
-            { name: 'BenDaDonnn',     img: 'benpfp.jpg',     subs: '2.5M+', url: 'https://www.youtube.com/@BenDaDonnLive' },
-            { name: 'AsianJeff',      img: 'jeffpfp.jpg',      subs: '2M+',   url: 'https://www.youtube.com/@realasianjeff' },
-            { name: 'Tylil',          img: 'tylilpfp.jpg',          subs: null,    url: 'https://www.youtube.com/@TheTylilShowLivee' },
-            { name: 'Raud',           img: 'raudpfp.jpg',           subs: '1M+',   url: 'https://www.youtube.com/@raudlive' },
-            { name: 'DLou',           img: 'dloupfp.jpg',           subs: null,    url: 'https://www.youtube.com/@DLouLive' },
-            { name: 'madi2hottyy',    img: 'madi2hottyypfp.jpg',    subs: null,    url: 'https://www.youtube.com/@MadiLivee' },
-            { name: 'Rawdogmoon',     img: 'rawdogmoonpfp.jpg',     subs: null,    url: 'https://www.youtube.com/@Rawdogmoon' },
-            { name: 'Pilat',          img: 'pilatpfp.jpg',          subs: null,    url: 'https://www.youtube.com/@PilatLive' },
-            { name: 'Mbytes',         img: 'mbytespfp.jpg',         subs: null,    url: 'https://www.youtube.com/@MBYTESGC' },
-            { name: 'BigBeno',        img: 'bigbenopfp.jpg',        subs: null,    url: 'https://www.youtube.com/@BigBenoLive' },
-            { name: 'Fiivestar',      img: 'fiiverstarpfp.jpg',     subs: null,    url: 'https://www.youtube.com/@fiivestarlivee' },
-            { name: 'Speakupkj',      img: 'speakupkjpfp.jpg',      subs: null,    url: 'https://www.youtube.com/@speakupkj' },
-            { name: 'King68theGreat', img: 'king68thegreatpfp.jpg', subs: null,    url: 'https://www.youtube.com/@King68thegreatt' },
-            { name: 'Geologyshi',     img: 'geologyshipfp.jpg',     subs: null,    url: 'https://www.youtube.com/@Geologyshiii' },
-            { name: 'Ari',            img: 'aripfp.jpg',            subs: null,    url: 'https://www.youtube.com/@TheRealKyleSister' }
+            { name: 'Adin Ross',      img: 'adinpfp.jpg',         subs: '22M+',  url: 'https://www.youtube.com/@AdinRoss' },
+            { name: 'Kay',            img: 'kaypfp.jpg',          subs: '10M+',  url: 'https://www.youtube.com/@Kay' },
+            { name: 'Jarvis',         img: 'jarvispfp.jpg',       subs: '7M+',   url: 'https://www.youtube.com/@Jarvisss' },
+            { name: 'FunnyMike',      img: 'funnymikepfp.jpg',    subs: null,    url: 'https://www.youtube.com/@FunnyMike_Live' },
+            { name: 'BenDaDonnn',     img: 'benpfp.jpg',          subs: '2.5M+', url: 'https://www.youtube.com/@BenDaDonnLive' },
+            { name: 'AsianJeff',      img: 'jeffpfp.jpg',         subs: '2M+',   url: 'https://www.youtube.com/@realasianjeff' },
+            { name: 'Tylil',          img: 'tylilpfp.jpg',        subs: null,    url: 'https://www.youtube.com/@TheTylilShowLivee' },
+            { name: 'Raud',           img: 'raudpfp.jpg',         subs: '1M+',   url: 'https://www.youtube.com/@raudlive' },
+            { name: 'DLou',           img: 'dloupfp.jpg',         subs: null,    url: 'https://www.youtube.com/@DLouLive' },
+            { name: 'madi2hottyy',    img: 'madi2hottyypfp.jpg',  subs: null,    url: 'https://www.youtube.com/@MadiLivee' },
+            { name: 'Rawdogmoon',     img: 'rawdogmoonpfp.jpg',   subs: null,    url: 'https://www.youtube.com/@Rawdogmoon' },
+            { name: 'Pilat',          img: 'pilatpfp.jpg',        subs: null,    url: 'https://www.youtube.com/@PilatLive' },
+            { name: 'Mbytes',         img: 'mbytespfp.jpg',       subs: null,    url: 'https://www.youtube.com/@MBYTESGC' },
+            { name: 'BigBeno',        img: 'bigbenopfp.jpg',      subs: null,    url: 'https://www.youtube.com/@BigBenoLive' },
+            { name: 'Fiivestar',      img: 'fiiverstarpfp.jpg',   subs: null,    url: 'https://www.youtube.com/@fiivestarlivee' },
+            { name: 'Speakupkj',      img: 'speakupkjpfp.jpg',    subs: null,    url: 'https://www.youtube.com/@speakupkj' },
+            { name: 'King68theGreat', img: 'king68thegreatpfp.jpg', subs: null,  url: 'https://www.youtube.com/@King68thegreatt' },
+            { name: 'Geologyshi',     img: 'geologyshipfp.jpg',   subs: null,    url: 'https://www.youtube.com/@Geologyshiii' },
+            { name: 'Ari',            img: 'aripfp.jpg',          subs: null,    url: 'https://www.youtube.com/@TheRealKyleSister' }
         ];
 
-        function renderGrid() {
-            const grid = document.getElementById('network-grid');
-            clients.forEach(c => {
+        /* RADIAL SLIDER LOGIC */
+        const wheelCenter = document.getElementById('wheel-center');
+        const networkSection = document.getElementById('network-section');
+        let currentAngle = 0;
+        let targetAngle = 0;
+        let isDragging = false;
+        let hasDragged = false; // prevents click if dragging
+        let startX = 0;
+        let lastTargetAngle = 0;
+        
+        function initWheel() {
+            wheelCenter.innerHTML = ''; // Reset
+            
+            // Dynamic radiuses based on screen size
+            const isMobile = window.innerWidth < 768;
+            const baseRadius = isMobile ? window.innerWidth * 0.9 : 600;
+            // Dual track (inner and outer rings) to avoid layout crowding
+            const radiusOuter = baseRadius;
+            const radiusInner = isMobile ? baseRadius - 80 : baseRadius - 130;
+
+            // Render Tracks
+            [radiusOuter, radiusInner].forEach(r => {
+                const track = document.createElement('div');
+                track.className = 'wheel-track';
+                track.style.width = `${r * 2}px`;
+                track.style.height = `${r * 2}px`;
+                wheelCenter.appendChild(track);
+            });
+
+            // Render Pills
+            clients.forEach((c, i) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'client-pill-wrapper';
+                
+                // Distribute evenly across 360 degrees
+                const itemAngle = (360 / clients.length) * i;
+                // Alternate radii for depth
+                const itemRadius = (i % 2 === 0) ? radiusOuter : radiusInner; 
+
+                wrapper.dataset.angle = itemAngle;
+                wrapper.dataset.radius = itemRadius;
+
                 const pill = document.createElement('a');
                 pill.href = c.url;
                 pill.target = '_blank';
                 pill.rel = 'noopener noreferrer';
                 pill.className = 'client-pill';
+                pill.style.animationDelay = `${i * 0.05}s`; // staggered entry
+
                 pill.innerHTML = `
                     <img src="${c.img}" class="client-avatar" onerror="this.src='logo.jpg'" alt="${c.name}">
                     <div class="client-meta">
@@ -324,14 +431,91 @@
                         ${c.subs ? `<span class="client-subs">${c.subs} FOLLOWERS</span>` : '<span class="client-subs">YOUTUBE CREATOR</span>'}
                     </div>
                 `;
-                grid.appendChild(pill);
+
+                // Prevent click if we were dragging
+                pill.addEventListener('click', (e) => {
+                    if (hasDragged) {
+                        e.preventDefault();
+                    }
+                });
+
+                wrapper.appendChild(pill);
+                wheelCenter.appendChild(wrapper);
             });
         }
 
+        function animateWheel() {
+            // Auto rotate if not dragging
+            if (!isDragging) {
+                targetAngle += 0.05; 
+            }
+            
+            // Smooth interpolation
+            currentAngle += (targetAngle - currentAngle) * 0.08;
+
+            const items = document.querySelectorAll('.client-pill-wrapper');
+            items.forEach((item) => {
+                const baseAngle = parseFloat(item.dataset.angle);
+                const r = parseFloat(item.dataset.radius);
+                
+                // Pure Math: 
+                // 1. Center the item natively via translation
+                // 2. Rotate to its unique spot on the circle plus the wheel's rotation
+                // 3. Push it outwards by its radius
+                // 4. Counter-rotate to keep the text horizontally readable (Ferris wheel effect)
+                const totalRotation = baseAngle + currentAngle;
+                
+                item.style.transform = `
+                    translate(-50%, -50%) 
+                    rotate(${totalRotation}deg) 
+                    translateY(-${r}px) 
+                    rotate(${-totalRotation}deg)
+                `;
+            });
+
+            requestAnimationFrame(animateWheel);
+        }
+
+        /* DRAG EVENTS */
+        function handleDragStart(x) {
+            isDragging = true;
+            hasDragged = false;
+            startX = x;
+            lastTargetAngle = targetAngle;
+        }
+        function handleDragMove(x) {
+            if (!isDragging) return;
+            const diff = x - startX;
+            if (Math.abs(diff) > 5) hasDragged = true;
+            // Drag direction logic
+            targetAngle = lastTargetAngle + (diff * 0.25);
+        }
+        function handleDragEnd() {
+            isDragging = false;
+        }
+
+        // Mouse Listeners
+        networkSection.addEventListener('mousedown', (e) => handleDragStart(e.clientX));
+        window.addEventListener('mousemove', (e) => handleDragMove(e.clientX));
+        window.addEventListener('mouseup', handleDragEnd);
+
+        // Touch Listeners
+        networkSection.addEventListener('touchstart', (e) => handleDragStart(e.touches[0].clientX), {passive: true});
+        window.addEventListener('touchmove', (e) => handleDragMove(e.touches[0].clientX), {passive: true});
+        window.addEventListener('touchend', handleDragEnd);
+
+        // Resize behavior
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(initWheel, 250);
+        });
+
+        /* PAGE INITIALIZATION */
         function initScrollAnimations() {
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-            }, { threshold: 0.05 });
+            }, { threshold: 0.1 });
             document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
         }
 
@@ -350,9 +534,11 @@
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
+                setTimeout(() => loader.style.display = 'none', 800);
             }, 900);
-            renderGrid();
+            
+            initWheel();
+            animateWheel();
             initScrollAnimations();
         });
     </script>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>(JRY) ® | Contact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #D60000;
+            --pure-black: #050505;
+            --text-white: #ffffff;
+            --glass-bg: rgba(255,255,255,0.03);
+            --glass-border: rgba(255,255,255,0.1);
+            --glass-blur: blur(15px);
+            --glass-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
+            --transition-smooth: all 0.6s cubic-bezier(0.22,1,0.36,1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; outline:none; -webkit-tap-highlight-color:transparent; }
+        html { scroll-behavior:smooth; background-color:var(--pure-black); }
+        body {
+            background-color: var(--pure-black);
+            color:#fff; font-family:'Inter',sans-serif; line-height:1.5; overflow-x:hidden;
+        }
+        ::selection { background:var(--text-white); color:var(--primary-red); }
+        ::-webkit-scrollbar { width:8px; }
+        ::-webkit-scrollbar-track { background:var(--pure-black); }
+        ::-webkit-scrollbar-thumb { background:var(--primary-red); border-radius:10px; }
+
+        /* LOADER */
+        #loader {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            background:var(--primary-red); z-index:9999;
+            display:flex; justify-content:center; align-items:center;
+            transition:opacity 0.8s ease-out,visibility 0.8s;
+        }
+        .loader-spinner {
+            width:50px; height:50px;
+            border:5px solid rgba(0,0,0,0.1); border-top:5px solid var(--pure-black);
+            border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 20px;
+        }
+        @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+        .reveal-on-scroll { opacity:0; transform:translateY(40px); transition:opacity 0.7s ease-out,transform 0.7s ease-out; }
+        .reveal-on-scroll.visible { opacity:1; transform:translateY(0); }
+
+        /* NAV */
+        nav {
+            position:fixed; top:20px; left:50%; transform:translateX(-50%);
+            padding:1.2rem 3%;
+            display:flex; justify-content:center; align-items:center; gap:2rem;
+            z-index:1000; background:var(--glass-bg);
+            backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+            border:1px solid var(--glass-border); border-radius:20px;
+            box-shadow:var(--glass-shadow); max-width:fit-content; white-space:nowrap;
+        }
+        .nav-brand {
+            display:flex; align-items:center; gap:10px; text-decoration:none;
+            font-weight:900; color:var(--text-white); font-size:1.4rem; letter-spacing:-1px;
+        }
+        .nav-logo-img { width:40px; height:40px; border-radius:10px; object-fit:cover; border:2px solid var(--text-white); }
+        nav ul { display:flex; gap:0; list-style:none; align-items:center; }
+        nav ul li { margin:0 12px; }
+        nav ul li a {
+            color:var(--text-white); text-decoration:none; font-weight:700;
+            font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;
+            position:relative; padding:5px 0; transition:var(--transition-smooth); opacity:0.8;
+        }
+        nav ul li a:hover, nav ul li a.active-page { opacity:1; color:var(--text-white); }
+        nav ul li a::after {
+            content:''; position:absolute; bottom:0; left:0; width:0%; height:2px;
+            background:var(--text-white); transition:var(--transition-smooth);
+        }
+        nav ul li a:hover::after, nav ul li a.active-page::after { width:100%; }
+        .nav-contact-icons {
+            display:flex; gap:12px; margin-left:15px;
+            border-left:2px solid rgba(255,255,255,0.3); padding-left:15px;
+        }
+        .nav-icon { color:var(--text-white); font-size:1.1rem; transition:var(--transition-bounce); opacity:0.8; }
+        .nav-icon:hover { opacity:1; transform:rotate(15deg) scale(1.2); }
+        .mobile-nav-toggle {
+            position:fixed; top:20px; right:20px; z-index:1001;
+            background:rgba(255,255,255,0.08); backdrop-filter:var(--glass-blur);
+            border:1px solid var(--glass-border); border-radius:50%;
+            width:55px; height:55px; display:none;
+            justify-content:center; align-items:center; cursor:pointer;
+        }
+        .mobile-nav-toggle i { color:var(--text-white); font-size:1.5rem; }
+
+        /* PAGE */
+        .contact-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 160px 8% 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background glow */
+        .contact-page::before {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px;
+            background: rgba(214,0,0,0.15);
+            filter: blur(120px);
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .contact-container { max-width: 900px; width: 100%; text-align: center; position: relative; z-index: 5; }
+        .contact-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900; color: var(--text-white);
+            text-transform: uppercase; letter-spacing: -3px;
+            line-height: 0.9; margin-bottom: 20px;
+        }
+        .contact-sub {
+            font-family: 'Times New Roman', serif; font-style: italic;
+            font-size: 1.3rem; color: rgba(255,255,255,0.65);
+            margin-bottom: 60px;
+        }
+        .contact-handle {
+            display: inline-block;
+            font-size: 1rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 3px; color: var(--primary-red);
+            background: rgba(214,0,0,0.1); border: 1px solid rgba(214,0,0,0.3);
+            padding: 8px 24px; border-radius: 50px; margin-bottom: 50px;
+        }
+
+        /* CARDS GRID */
+        .contact-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .contact-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 55px 20px 40px;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: var(--transition-bounce);
+            display: flex; flex-direction: column;
+            align-items: center; gap: 18px;
+            position: relative; overflow: hidden;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--primary-red);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: inherit;
+        }
+        .contact-card:hover::before { opacity: 1; }
+        .contact-card:hover {
+            border-color: var(--primary-red);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(214,0,0,0.3);
+        }
+        .contact-card i {
+            font-size: 3.5rem; color: var(--text-white);
+            transition: transform 0.4s ease; position: relative; z-index: 1;
+        }
+        .contact-card:hover i { transform: scale(1.15); }
+        .card-label {
+            color: var(--text-white); font-weight: 900;
+            text-transform: uppercase; font-size: 1.1rem;
+            letter-spacing: 2px; position: relative; z-index: 1;
+        }
+        .card-handle {
+            color: rgba(255,255,255,0.55); font-weight: 700;
+            font-size: 0.85rem; letter-spacing: 1px;
+            position: relative; z-index: 1;
+            transition: color 0.3s;
+        }
+        .contact-card:hover .card-handle { color: rgba(255,255,255,0.85); }
+
+        /* FOOTER */
+        footer {
+            padding: 60px 8%;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .footer-logo { width:90px; margin-bottom:20px; border-radius:12px; border:2px solid rgba(255,255,255,0.2); }
+        .footer-text { font-weight:900; font-size:1.8rem; color:var(--text-white); text-transform:uppercase; margin-bottom:6px; letter-spacing:-1px; }
+        .footer-sub { font-family:'Times New Roman',serif; font-style:italic; opacity:0.5; margin-bottom:30px; font-size:1rem; color:var(--text-white); }
+        .copyright { font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.4); line-height:2; }
+        .powered-by { margin-top:10px; font-size:0.7rem; opacity:0.5; }
+        .powered-by span { color:var(--primary-red); font-weight:900; opacity:1; }
+
+        #back-to-top {
+            position:fixed; bottom:40px; left:40px; width:50px; height:50px;
+            background:var(--primary-red); color:var(--text-white); border-radius:50%;
+            display:flex; justify-content:center; align-items:center; cursor:pointer;
+            opacity:0; visibility:hidden; transition:var(--transition-smooth); z-index:990;
+            border:2px solid rgba(255,255,255,0.2);
+        }
+        #back-to-top.active { opacity:1; visibility:visible; }
+        #back-to-top:hover { transform:translateY(-5px); }
+
+        @media (max-width:768px) {
+            .contact-links-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
+            nav ul li { display:none; }
+            .nav-contact-icons { display:flex; margin-left:auto; border:none; }
+            .mobile-nav-toggle { display:flex; }
+            nav {
+                position:fixed; top:0; left:0; width:100%; transform:translateY(-100%);
+                flex-direction:column; gap:1rem; border-radius:0; max-width:100%;
+                transition:transform 0.4s ease;
+            }
+            nav.active { transform:translateY(0); }
+            nav ul { flex-direction:column; gap:1rem; width:100%; }
+            nav ul li { display:block; margin:0; text-align:center; }
+        }
+        @media (max-width:900px) and (min-width:769px) {
+            .contact-links-grid { grid-template-columns:1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div style="text-align:center;color:var(--pure-black);">
+            <div class="loader-spinner"></div>
+            <h2 style="font-weight:900;text-transform:uppercase;letter-spacing:2px;">(JRY) LOADING</h2>
+        </div>
+    </div>
+
+    <div id="back-to-top" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></div>
+    <div class="mobile-nav-toggle" onclick="toggleMobileNav()"><i class="fas fa-bars"></i></div>
+
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="logo.jpg" alt="(JRY)" class="nav-logo-img">
+            (JRY)®
+        </a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="network.html">Network</a></li>
+            <li><a href="contact.html" class="active-page">Contact</a></li>
+            <div class="nav-contact-icons">
+                <a href="https://x.com/madebyjry" target="_blank" class="nav-icon"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://discord.com/users/madebyjry" target="_blank" class="nav-icon"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.instagram.com/madebyjry/" target="_blank" class="nav-icon"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </ul>
+    </nav>
+
+    <main class="contact-page">
+        <div class="contact-container reveal-on-scroll">
+            <h1 class="contact-title">(Let's Work)</h1>
+            <p class="contact-sub">Ready to elevate your content? Reach out directly.</p>
+            <div class="contact-handle">@madebyjry</div>
+
+            <div class="contact-links-grid">
+                <a href="https://x.com/madebyjry" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span class="card-label">X</span>
+                    <span class="card-handle">@madebyjry</span>
+                </a>
+                <a href="https://discord.com/users/madebyjry" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-discord"></i>
+                    <span class="card-label">Discord</span>
+                    <span class="card-handle">@madebyjry</span>
+                </a>
+                <a href="https://www.instagram.com/madebyjry/" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span class="card-label">Instagram</span>
+                    <span class="card-handle">@madebyjry</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <img src="logo.jpg" alt="JRY" class="footer-logo">
+        <div class="footer-text">(JRY) ®</div>
+        <div class="footer-sub">Providing the best work by any means necessary.</div>
+        <div class="copyright">
+            &copy; 2026 JRY ® <br>— All Rights Reserved —
+            <div class="powered-by">Powered by <span>Sxrch</span></div>
+        </div>
+    </footer>
+
+    <script>
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        }
+        window.addEventListener('scroll', () => {
+            document.getElementById('back-to-top').classList.toggle('active', window.scrollY > 300);
+        });
+        function scrollToTop() { window.scrollTo({ top:0, behavior:'smooth' }); }
+        function toggleMobileNav() {
+            document.querySelector('nav').classList.toggle('active');
+            document.querySelector('.mobile-nav-toggle').classList.toggle('active');
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0'; loader.style.visibility = 'hidden';
+            }, 900);
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>
